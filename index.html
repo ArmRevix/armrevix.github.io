@@ -4,136 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARM REVIX - MOVE TO EARN</title>
+    <link rel="manifest" href="manifest.json">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e1e2f, #111119);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        h1 {
-            color: #4ef083;
-            margin-bottom: 10px;
-            font-size: 28px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .subtitle {
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .stats-box {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-        }
-
-        .counter {
-            font-size: 48px;
-            font-weight: bold;
-            color: #fff;
-            margin: 10px 0;
-            text-shadow: 0 0 10px rgba(78, 240, 131, 0.5);
-        }
-
-        .label {
-            font-size: 12px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        button {
-            background: linear-gradient(90deg, #4ef083, #11998e);
-            border: none;
-            color: white;
-            padding: 15px 35px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(78, 240, 131, 0.4);
-            transition: all 0.3s ease;
-            width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(78, 240, 131, 0.6);
-        }
-
-        button:active {
-            transform: translateY(1px);
-        }
+        body { font-family: sans-serif; background: #1e1e2f; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .container { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 100%; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        h1 { color: #4ef083; margin-bottom: 20px; }
+        .counter { font-size: 48px; font-weight: bold; margin: 20px 0; color: #fff; }
+        button { background: linear-gradient(90deg, #4ef083, #11998e); border: none; color: white; padding: 15px; font-size: 18px; border-radius: 50px; width: 100%; margin-bottom: 15px; cursor: pointer; text-transform: uppercase; font-weight: bold; transition: 0.3s; }
+        button:hover { transform: scale(1.05); }
+        #downloadBtn { background: linear-gradient(90deg, #ff416c, #ff4b2b); }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Move To Earn</h1>
-        <div class="subtitle">Քայլիր և Աշխատիր ARM REVIX-ի հետ</div>
-
-        <div class="stats-box">
-            <div class="label">Կատարված Քայլեր</div>
-            <div id="stepCount" class="counter">0</div>
-        </div>
-
+        <div id="stepCount" class="counter">0</div>
+        
+        <!-- Ստանալ պարգևը կոճակը -->
         <button onclick="claimReward()">Ստանալ Պարգևը</button>
+
+        <!-- Ներբեռնելու կոճակը (ուղիղ հղումով) -->
+        <a href="https://www.webintoapp.com/download/zip/1405538/MAN%20REVIX%201.0.zip?dHWmQZX4zWAq" style="text-decoration:none;">
+            <button id="downloadBtn">ՆԵՐԲԵՌՆԵԼ ՀԱՎԵԼՎԱԾԸ (APK)</button>
+        </a>
     </div>
 
     <script>
         let steps = 0;
-
-        // Քայլերի սիմուլյացիա (ավելանում է յուրաքանչյուր 1.5 վայրկյանը մեկ)
-        setInterval(() => {
-            steps += Math.floor(Math.random() * 5) + 1;
-            document.getElementById('stepCount').innerText = steps;
-        }, 1500);
+        setInterval(() => { steps += 1; document.getElementById('stepCount').innerText = steps; }, 1000);
 
         function claimReward() {
-            if (steps < 10) {
-                alert("Բավարար քայլեր չեք արել պարգևը ստանալու համար։ Շարունակեք քայլել։");
-                return;
-            }
-            
-            // Գովազդի բացում նոր պատուհանով
-            showAd();
-            
-            // Քայլերը զրոյացնում ենք պարգևը վերցնելուց հետո
+            if (steps < 10) { alert("Շարունակեք քայլել!"); return; }
+            window.open("https://www.effectivecpmnetwork.com/qshps65d?key=2eab53f97fb58d9a2c1859a7e35251e2", '_blank');
             steps = 0;
-            document.getElementById('stepCount').innerText = steps;
-        }
-
-        function showAd() {
-            // Քո անձնական Adsterra Smartlink հղումը
-            let adsterraDirectLink = "https://www.effectivecpmnetwork.com/qshps65d?key=2eab53f97fb58d9a2c1859a7e35251e2";
-            window.open(adsterraDirectLink, '_blank');
         }
     </script>
 

@@ -2,57 +2,14 @@
 <html lang="hy">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARM REVIX</title>
+    <title>ARM REVIX APP</title>
     <style>
-        body { margin: 0; font-family: sans-serif; background: #0f172a; color: white; }
-        .screen { display: none; padding: 20px; height: 100vh; }
-        .active { display: block; }
-        
-        /* ԿԱՅՔԻ ԴԻԶԱՅՆ (Գուգլի համար) */
-        #web-landing { text-align: center; padding-top: 100px; }
-        
-        /* ՀԱՎԵԼՎԱԾԻ ԴԻԶԱՅՆ (Yo Health-ի նման) */
-        #app-home { background: #10b981; padding: 0; }
-        .header { padding: 20px; font-size: 24px; font-weight: bold; }
-        .step-box { background: white; color: black; margin: 20px; padding: 40px; border-radius: 20px; text-align: center; }
+        /* Այստեղ գրիր քո Yo Health-ի նման դիզայնը */
+        body { background: #10b981; color: white; font-family: sans-serif; }
+        .steps { font-size: 50px; text-align: center; margin-top: 50px; }
     </style>
 </head>
 <body>
-
-    <div id="web-landing" class="screen">
-        <h1>ARM REVIX</h1>
-        <p>Քայլիր և վաստակիր։ Ներբեռնիր հավելվածը հիմա։</p>
-        <a href="https://www.webintoapp.com/download/..." style="background:#22c55e; padding:15px; border-radius:10px; color:black; text-decoration:none;">ՆԵՐԲԵՌՆԵԼ APK</a>
-    </div>
-
-    <div id="app-home" class="screen">
-        <div class="header">MAN REVIX</div>
-        <div class="step-box">
-            <div style="color:gray;">TODAY'S STEPS</div>
-            <div id="steps" style="font-size: 40px; font-weight:bold;">0</div>
-        </div>
-        <button onclick="alert('Գովազդ!')">CLAIM</button>
-    </div>
-
-    <script>
-        // Ստուգում ենք՝ սա հավելված է, թե՞ բրաուզեր
-        const isApp = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
-
-        if (isApp) {
-            document.getElementById('app-home').classList.add('active');
-        } else {
-            document.getElementById('web-landing').classList.add('active');
-        }
-
-        // Քայլերի հաշվիչ միայն հավելվածի համար
-        if (isApp) {
-            window.addEventListener('devicemotion', (e) => {
-                if (Math.abs(e.accelerationIncludingGravity.x) > 15) {
-                    document.getElementById('steps').innerText = parseInt(document.getElementById('steps').innerText) + 1;
-                }
-            });
-        }
-    </script>
-</body>
+    <div class="steps">Քայլեր: <span id="count">0</span></div>
+    </body>
 </html>

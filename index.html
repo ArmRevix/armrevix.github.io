@@ -6,39 +6,52 @@
     <title>ARM REVIX</title>
     <style>
         body { margin: 0; font-family: sans-serif; background: #0f172a; color: white; }
-        .page { display: none; padding: 20px; }
+        .screen { display: none; padding: 20px; height: 100vh; }
         .active { display: block; }
-        /* Կայքի դիզայն */
-        .landing { text-align: center; padding-top: 50px; }
-        .btn { background: #22c55e; padding: 15px 30px; border-radius: 30px; color: black; font-weight: bold; text-decoration: none; display: inline-block; }
-        /* Հավելվածի դիզայն (Login) */
-        .app-screen { text-align: center; }
+        
+        /* ԿԱՅՔԻ ԴԻԶԱՅՆ (Գուգլի համար) */
+        #web-landing { text-align: center; padding-top: 100px; }
+        
+        /* ՀԱՎԵԼՎԱԾԻ ԴԻԶԱՅՆ (Yo Health-ի նման) */
+        #app-home { background: #10b981; padding: 0; }
+        .header { padding: 20px; font-size: 24px; font-weight: bold; }
+        .step-box { background: white; color: black; margin: 20px; padding: 40px; border-radius: 20px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div id="landingPage" class="page active landing">
+    <div id="web-landing" class="screen">
         <h1>ARM REVIX</h1>
-        <p>Լավագույն հավելվածը քայլերի համար։</p>
-        <a href="https://www.webintoapp.com/download/..." class="btn">ՆԵՐԲԵՌՆԵԼ APK</a>
+        <p>Քայլիր և վաստակիր։ Ներբեռնիր հավելվածը հիմա։</p>
+        <a href="https://www.webintoapp.com/download/..." style="background:#22c55e; padding:15px; border-radius:10px; color:black; text-decoration:none;">ՆԵՐԲԵՌՆԵԼ APK</a>
     </div>
 
-    <div id="appPage" class="page">
-        <h1>ՄՈՒՏՔ</h1>
-        <input type="text" placeholder="Օգտանուն"><br>
-        <button onclick="enterApp()">Մտնել հաշիվ</button>
+    <div id="app-home" class="screen">
+        <div class="header">MAN REVIX</div>
+        <div class="step-box">
+            <div style="color:gray;">TODAY'S STEPS</div>
+            <div id="steps" style="font-size: 40px; font-weight:bold;">0</div>
+        </div>
+        <button onclick="alert('Գովազդ!')">CLAIM</button>
     </div>
 
     <script>
-        // Եթե սա հավելված է, ցույց տուր AppPage-ը
-        if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
-            document.getElementById('landingPage').classList.remove('active');
-            document.getElementById('appPage').classList.add('active');
+        // Ստուգում ենք՝ սա հավելված է, թե՞ բրաուզեր
+        const isApp = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+
+        if (isApp) {
+            document.getElementById('app-home').classList.add('active');
+        } else {
+            document.getElementById('web-landing').classList.add('active');
         }
 
-        function enterApp() {
-            // Այստեղ կավելացնենք հիմնական քայլաչափի էկրանը
-            alert("Բարի գալուստ ARM REVIX!");
+        // Քայլերի հաշվիչ միայն հավելվածի համար
+        if (isApp) {
+            window.addEventListener('devicemotion', (e) => {
+                if (Math.abs(e.accelerationIncludingGravity.x) > 15) {
+                    document.getElementById('steps').innerText = parseInt(document.getElementById('steps').innerText) + 1;
+                }
+            });
         }
     </script>
 </body>

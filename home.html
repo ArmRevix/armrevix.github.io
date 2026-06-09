@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARM REVIX</title>
+    <title>MAN REVIX</title>
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; background: #0f2e26; color: white; text-align: center; }
-        .header { padding: 15px; background: #000; font-size: 18px; border-bottom: 2px solid #f59e0b; }
-        .card { background: rgba(255, 255, 255, 0.1); padding: 40px; margin: 20px auto; border-radius: 20px; max-width: 400px; }
-        .count { font-size: 60px; font-weight: bold; margin: 20px 0; color: #f59e0b; }
-        .earn-btn { background: #f59e0b; color: #000; border: none; padding: 15px 30px; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; }
-        .earn-btn:active { transform: scale(0.98); }
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #0b2e26; color: white; text-align: center; }
+        .header { padding: 20px; background: #000; font-size: 20px; border-bottom: 2px solid #f59e0b; }
+        .card { background: rgba(255, 255, 255, 0.1); padding: 40px; margin: 50px auto; border-radius: 20px; max-width: 350px; }
+        .count { font-size: 50px; font-weight: bold; margin: 20px 0; color: #f59e0b; }
+        .earn-btn { background: #f59e0b; color: #000; border: none; padding: 15px 25px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; }
+        .earn-btn:disabled { background: #555; color: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -20,41 +20,62 @@
     </div>
 
     <div class="card">
-        <div style="font-size: 20px;">ԸՆԴԱՄԵՆԸ</div>
+        <div>ԸՆԴԱՄԵՆԸ</div>
         <div class="count" id="coinCountDisplay">0</div>
-        <button class="earn-btn" onclick="openAd()">+200 REVIX (Դիտել)</button>
+        <button class="earn-btn" id="earnBtn" onclick="startAdProcess()">+200 REVIX (Դիտել)</button>
     </div>
 
     <script>
-        // Սկզբնական քոինների քանակ
-        let coins = 0;
+        // Քոինների բեռնում հիշողությունից
+        let coins = parseInt(localStorage.getItem('revixCoins')) || 0;
+        document.getElementById('coinCountHeader').innerText = coins;
+        document.getElementById('coinCountDisplay').innerText = coins;
 
-        function openAd() {
-            // 1. Գովազդի հղումը
+        function startAdProcess() {
+            const btn = document.getElementById('earnBtn');
             const adUrl = 'https://www.effectivecpmnetwork.com/qshps65d?key=2eab53f97fb58d9a2c1859a7e35251e2';
             
-            // 2. Բացում ենք գովազդը նոր պատուհանում
+            // Բացում ենք գովազդը
             window.open(adUrl, '_blank');
             
-            // 3. Ավելացնում ենք քոինները և թարմացնում էկրանը
-            coins += 200;
-            document.getElementById('coinCountHeader').innerText = coins;
-            document.getElementById('coinCountDisplay').innerText = coins;
+            // 30 վայրկյան սպասում՝ քոինները ստանալու համար
+            let timeLeft = 30;
+            btn.disabled = true;
             
-            // 4. (Լրացուցիչ) Պահում ենք քոինները բրաուզերի հիշողության մեջ, 
-            // որպեսզի էջը թարմացնելիս չկորչեն
-            localStorage.setItem('revixCoins', coins);
+            let timer = setInterval(() => {
+                timeLeft--;
+                btn.innerText = "Դիտում եք... (" + timeLeft + ")";
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    
+                    // Ավելացնում ենք քոինները
+                    coins += 200;
+                    document.getElementById('coinCountHeader').innerText = coins;
+                    document.getElementById('coinCountDisplay').innerText = coins;
+                    localStorage.setItem('revixCoins', coins);
+                    
+                    // Անցնում ենք 60 վայրկյանանոց պաշտպանիչ արգելափակման
+                    startCooldown(60);
+                }
+            }, 1000);
         }
 
-        // Ստուգում ենք՝ արդյոք նախկինում կուտակված քոիններ կան
-        window.onload = function() {
-            let savedCoins = localStorage.getItem('revixCoins');
-            if (savedCoins) {
-                coins = parseInt(savedCoins);
-                document.getElementById('coinCountHeader').innerText = coins;
-                document.getElementById('coinCountDisplay').innerText = coins;
-            }
-        };
+        function startCooldown(seconds) {
+            const btn = document.getElementById('earnBtn');
+            let remaining = seconds;
+            
+            let cdTimer = setInterval(() => {
+                remaining--;
+                btn.innerText = "Սպասեք " + remaining + " վայրկյան";
+                
+                if (remaining <= 0) {
+                    clearInterval(cdTimer);
+                    btn.disabled = false;
+                    btn.innerText = "+200 REVIX (Դիտել)";
+                }
+            }, 1000);
+        }
     </script>
 </body>
 </html>

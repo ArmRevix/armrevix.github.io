@@ -5,44 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARM REVIX</title>
     <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; background: linear-gradient(180deg, #10b981 0%, #064e3b 100%); color: white; text-align: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-        .card { background: rgba(255, 255, 255, 0.2); padding: 30px; margin: 20px; border-radius: 25px; backdrop-filter: blur(10px); }
-        .count { font-size: 60px; font-weight: bold; margin: 10px 0; }
-        .earn-btn { background: #f59e0b; color: white; padding: 15px 40px; border-radius: 50px; font-size: 18px; border: none; cursor: pointer; font-weight: bold; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; }
-        .modal-content { background: white; color: #333; padding: 30px; border-radius: 20px; width: 85%; }
-        .ad-link { display: block; background: #10b981; color: white; padding: 15px; text-decoration: none; border-radius: 10px; margin-top: 20px; font-weight: bold; }
+        body { margin: 0; padding: 0; font-family: sans-serif; background: #0f2e26; color: white; text-align: center; }
+        .header { padding: 15px; background: #000; font-size: 18px; border-bottom: 2px solid #f59e0b; }
+        .card { background: rgba(255, 255, 255, 0.1); padding: 40px; margin: 20px auto; border-radius: 20px; max-width: 400px; }
+        .count { font-size: 60px; font-weight: bold; margin: 20px 0; color: #f59e0b; }
+        .earn-btn { background: #f59e0b; color: #000; border: none; padding: 15px 30px; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; }
+        .earn-btn:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div style="font-size: 18px; opacity: 0.9;">ԻՄ REVIX ՔՈԻՆՆԵՐԸ</div>
-    <div id="coinCount" class="count">0</div>
-    <button class="earn-btn" onclick="openAd()">+200 REVIX (ԴԻՏԵԼ)</button>
-</div>
-
-<div id="adModal" class="modal">
-    <div class="modal-content">
-        <h3>Գովազդ</h3>
-        <p>Դիտիր գովազդը և ստացիր քո 200 REVIX-ը:</p>
-        <a href="https://www.effectivecpmnetwork.com/qshps65d?key=2eab53f97fb58d9a2c1859a7e35251e2" target="_blank" class="ad-link" onclick="addCoins()">ԴԻՏԵԼ ԳՈՎԱԶԴԸ</a>
-        <button style="margin-top:15px; border:none; background:none; color:gray;" onclick="closeModal()">Փակել</button>
+    <div class="header">
+        REVIX COINS: <span id="coinCountHeader">0</span>
     </div>
-</div>
 
-<script>
-    let coins = 0;
+    <div class="card">
+        <div style="font-size: 20px;">ԸՆԴԱՄԵՆԸ</div>
+        <div class="count" id="coinCountDisplay">0</div>
+        <button class="earn-btn" onclick="openAd()">+200 REVIX (Դիտել)</button>
+    </div>
 
-    function openAd() { document.getElementById('adModal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('adModal').style.display = 'none'; }
-    
-    function addCoins() {
-        coins += 200;
-        document.getElementById('coinCount').innerText = coins;
-        setTimeout(closeModal, 1000);
-    }
-</script>
+    <script>
+        // Սկզբնական քոինների քանակ
+        let coins = 0;
 
+        function openAd() {
+            // 1. Գովազդի հղումը
+            const adUrl = 'https://www.effectivecpmnetwork.com/qshps65d?key=2eab53f97fb58d9a2c1859a7e35251e2';
+            
+            // 2. Բացում ենք գովազդը նոր պատուհանում
+            window.open(adUrl, '_blank');
+            
+            // 3. Ավելացնում ենք քոինները և թարմացնում էկրանը
+            coins += 200;
+            document.getElementById('coinCountHeader').innerText = coins;
+            document.getElementById('coinCountDisplay').innerText = coins;
+            
+            // 4. (Լրացուցիչ) Պահում ենք քոինները բրաուզերի հիշողության մեջ, 
+            // որպեսզի էջը թարմացնելիս չկորչեն
+            localStorage.setItem('revixCoins', coins);
+        }
+
+        // Ստուգում ենք՝ արդյոք նախկինում կուտակված քոիններ կան
+        window.onload = function() {
+            let savedCoins = localStorage.getItem('revixCoins');
+            if (savedCoins) {
+                coins = parseInt(savedCoins);
+                document.getElementById('coinCountHeader').innerText = coins;
+                document.getElementById('coinCountDisplay').innerText = coins;
+            }
+        };
+    </script>
 </body>
 </html>

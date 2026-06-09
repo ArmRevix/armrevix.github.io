@@ -3,77 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAN REVIX</title>
+    <title>ARM REVIX - Քայլերի հաշվիչ</title>
     <style>
-        body { 
-            margin: 0; padding: 0; font-family: sans-serif; 
-            background: linear-gradient(180deg, #10b981 0%, #064e3b 100%); 
-            color: white; text-align: center; height: 100vh;
-        }
-        .container { padding: 20px; }
-        .header { font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: left; }
-        .card { 
-            background: rgba(255, 255, 255, 0.2); padding: 30px; 
-            border-radius: 25px; backdrop-filter: blur(10px); margin-bottom: 20px;
-        }
-        .steps-label { font-size: 14px; opacity: 0.9; text-transform: uppercase; }
-        .steps-count { font-size: 60px; font-weight: bold; margin: 10px 0; }
-        .claim-btn { 
-            background: white; color: #064e3b; padding: 15px 40px; 
-            border-radius: 50px; font-weight: bold; border: none; 
-            font-size: 18px; cursor: pointer; width: 100%;
-        }
+        body { background: linear-gradient(180deg, #10b981 0%, #064e3b 100%); color: white; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; height: 100vh; }
+        .card { background: rgba(255, 255, 255, 0.15); padding: 30px; border-radius: 30px; backdrop-filter: blur(10px); margin-top: 50px; border: 1px solid rgba(255,255,255,0.1); }
+        .count { font-size: 50px; font-weight: bold; margin: 20px 0; }
+        .earn-btn { background: #f59e0b; color: white; padding: 15px 30px; border-radius: 50px; font-size: 18px; border: none; cursor: pointer; margin-top: 20px; }
+        
+        /* Modal-ի ոճը */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+        .modal-content { background: white; color: #333; padding: 30px; border-radius: 20px; width: 80%; }
+        .ad-link { display: block; background: #10b981; color: white; padding: 15px; text-decoration: none; border-radius: 10px; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">MAN REVIX</div>
-    
-    <div class="card">
-        <div class="steps-label">TODAY'S STEPS</div>
-        <div id="steps" class="steps-count">0</div>
-        <button class="claim-btn" onclick="claimReward()">CLAIM</button>
+<div class="card">
+    <div>REVIX COINS</div>
+    <div id="steps" class="count">0</div>
+    <button class="earn-btn" onclick="openAdModal()">+200 REVIX (Դիտել)</button>
+</div>
+
+<!-- Գովազդի պատուհանը -->
+<div id="adModal" class="modal">
+    <div class="modal-content">
+        <h3>Դիտիր գովազդը!</h3>
+        <p>Դիտիր գովազդը մինչև վերջ և ստացիր 200 REVIX քոին:</p>
+        <a href="https://www.effectivecpmnetwork.com/qshps65d?key=2eab53f97fb58d9a2c1859a7e35251e2" target="_blank" class="ad-link" onclick="rewardUser()">ԴԻՏԵԼ ԳՈՎԱԶԴԸ</a>
+        <button style="margin-top:10px; border:none; background:none; color:red;" onclick="closeModal()">Փակել</button>
     </div>
 </div>
 
 <script>
-    let stepCount = 0;
-
-    // Սենսորների միացում
-    window.onload = function() {
-        if (typeof DeviceMotionEvent.requestPermission === 'function') {
-            DeviceMotionEvent.requestPermission().then(response => {
-                if (response == 'granted') {
-                    window.addEventListener('devicemotion', handleMotion);
-                }
-            });
-        } else {
-            window.addEventListener('devicemotion', handleMotion);
-        }
-    };
-
-    // Քայլերի հաշվարկ
-    function handleMotion(event) {
-        let acc = event.accelerationIncludingGravity;
-        let movement = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
-        if (movement > 25) { // Զգայունություն
-            stepCount++;
-            document.getElementById('steps').innerText = stepCount;
-        }
-    }
-
-    // Գովազդի ֆունկցիա
-    function claimReward() {
-        if (stepCount < 20) {
-            alert("Քայլիր ավելի շատ!");
-        } else {
-            stepCount = 0;
-            document.getElementById('steps').innerText = 0;
-            window.location.href = "https://www.effectivecpmnetwork.com/qshps65d?key=2eab53f97fb58d9a2c1859a7e35251e2";
-        }
+    let coins = 0;
+    function openAdModal() { document.getElementById('adModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('adModal').style.display = 'none'; }
+    
+    function rewardUser() {
+        coins += 200;
+        document.getElementById('steps').innerText = coins;
+        setTimeout(closeModal, 1000);
+        alert("Շնորհավոր! Դու ստացար 200 REVIX:");
     }
 </script>
-
 </body>
 </html>

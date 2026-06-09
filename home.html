@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAN REVIX</title>
+    
+    <script src="https://pl29694533.effectivecpmnetwork.com/1a/45/9f/1a459fdc329033dfc4d29a7c6ef78898.js"></script>
+    
     <style>
         body { margin: 0; padding: 0; font-family: sans-serif; background: #0b2e26; color: white; text-align: center; }
         .header { padding: 20px; background: #000; font-size: 20px; border-bottom: 2px solid #f59e0b; }
@@ -26,22 +29,18 @@
     </div>
 
     <script>
-        // Քոինների բեռնում հիշողությունից
         let coins = parseInt(localStorage.getItem('revixCoins')) || 0;
         document.getElementById('coinCountHeader').innerText = coins;
         document.getElementById('coinCountDisplay').innerText = coins;
 
         function startAdProcess() {
             const btn = document.getElementById('earnBtn');
-            const adUrl = 'https://www.effectivecpmnetwork.com/qshps65d?key=2eab53f97fb58d9a2c1859a7e35251e2';
-            
-            // Բացում ենք գովազդը
-            window.open(adUrl, '_blank');
             
             // 30 վայրկյան սպասում՝ քոինները ստանալու համար
             let timeLeft = 30;
             btn.disabled = true;
             
+            // Popunder-ն ինքնաբերաբար կակտիվանա սեղմումից հետո
             let timer = setInterval(() => {
                 timeLeft--;
                 btn.innerText = "Դիտում եք... (" + timeLeft + ")";
